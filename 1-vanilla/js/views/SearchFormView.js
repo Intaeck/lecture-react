@@ -8,6 +8,7 @@ export default class SearchFormView extends View {
     console.log(tag, "constructor");
 
     super(qs("#search-form-view"));
+    console.log(tag, this.element);
 
     this.inputElement = qs("[type=text]", this.element);
     this.resetElement = qs("[type=reset]", this.element);
@@ -21,12 +22,20 @@ export default class SearchFormView extends View {
   }
 
   bindEvents() {
-    on(this.inputElement, "keyup", () => this.handleKeyup());
+    on(this.inputElement, 'keyup', () => this.handleKeyup()); // helper.js의 on 메서드
     // TODO
+    on(this.element, 'submit', (event) => this.handleSubmit(event)); // helper.js의 on 메서드
   }
 
   handleKeyup() {
     const { value } = this.inputElement;
     this.showResetButton(value.length > 0);
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+    console.log(tag, 'handleSubmit');
+    const { value } = this.inputElement;
+    this.emit('@submit', { value }); // View.js의 emit 메서드
   }
 }

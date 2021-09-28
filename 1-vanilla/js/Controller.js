@@ -9,5 +9,14 @@ export default class Controller {
     this.searchFormView = searchFormView;
 
     // TODO
+    this.subscribeViewEvents();
+  }
+
+  subscribeViewEvents() {
+    this.searchFormView.on('@submit', event => this.search(event.detail.value)); // View.js의 on 메서드
+  }
+
+  search(keyword) {
+    console.log(tag, keyword);
   }
 }
