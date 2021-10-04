@@ -36,6 +36,9 @@ export default class SearchFormView extends View {
     event.preventDefault();
     console.log(tag, 'handleSubmit');
     const { value } = this.inputElement;
+    console.log('this.inputElement.value ::: ', typeof this.inputElement);
+    console.log('value::::: ', typeof value, value);
+    console.log('{ value } ::::: ', typeof { value }, { value });
     this.emit('@submit', { value }); // View.js의 emit 메서드
   }
 }

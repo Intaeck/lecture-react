@@ -29,6 +29,8 @@ export function delegate(target, eventName, selector, handler) {
 }
 
 export function emit(target, eventName, detail) {
+  console.log('detail ::::: ', detail);
+  console.log('{ detail } ::::: ', { detail });
   const event = new CustomEvent(eventName, { detail });
   target.dispatchEvent(event);
 }
