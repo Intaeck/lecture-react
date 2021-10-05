@@ -28,6 +28,9 @@ export default class Controller {
   reset() {
     console.log(tag, "reset");
     // TODO
+    this.store.searchKeyword = '';
+    this.store.searchResult = [];
+    this.render();
   }
 
   render() {
