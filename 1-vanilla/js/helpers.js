@@ -17,14 +17,13 @@ export function on(target, eventName, handler) {
 export function delegate(target, eventName, selector, handler) {
   const emitEvent = (event) => {
     const potentialElements = qsAll(selector, target);
-
+    console.log('potentialElements : ', potentialElements);
     for (const potentialElement of potentialElements) {
       if (potentialElement === event.target) {
         return handler.call(event.target, event);
       }
     }
   };
-
   on(target, eventName, emitEvent);
 }
 

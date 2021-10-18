@@ -2,7 +2,7 @@ const tag = "[Controller]";
 
 export default class Controller {
   constructor(store, { searchFormView, searchResultView, tabView }) {
-    console.log(tag, "constructor");
+    console.log(tag, 'constructor');
 
     this.store = store;
 
@@ -16,24 +16,32 @@ export default class Controller {
 
   subscribeViewEvents() {
     this.searchFormView
-      .on("@submit", (event) => this.search(event.detail.value))
-      .on("@reset", () => this.reset());
+      .on('@submit', (event) => this.search(event.detail.value))
+      .on('@reset', () => this.reset());
 
     // TODO
+    // TabView에서 delegate한 클릭 이벤트를 수신 시 수행
+    this.tabView.on('@change', (event) => this.changeTab(event.detail.value));
   }
 
   search(keyword) {
-    console.log(tag, "search", keyword);
+    console.log(tag, 'search', keyword);
 
     this.store.search(keyword);
     this.render();
   }
 
   reset() {
-    console.log(tag, "reset");
+    console.log(tag, 'reset');
 
-    this.store.searchKeyword = "";
+    this.store.searchKeyword = '';
     this.store.searchResult = [];
+    this.render();
+  }
+
+  changeTab(tab) {
+    console.log(tag, 'changeTab', tab);
+    this.store.selectedTab = tab;
     this.render();
   }
 

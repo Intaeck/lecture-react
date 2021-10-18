@@ -1,4 +1,4 @@
-import { qs, qsAll } from "../helpers.js";
+import { delegate, qs, qsAll } from "../helpers.js";
 import View from "./View.js";
 
 const tag = "[TabView]";
@@ -15,18 +15,32 @@ const TabLabel = {
 
 export default class TabView extends View {
   constructor() {
-    console.log(tag, "constructor");
+    console.log(tag, 'constructor');
 
-    super(qs("#tab-view"));
+    super(qs('#tab-view'));
 
     this.template = new Template();
-    // TODO
+    // TODO - 클릭이벤트
+    this.bindEvents();
   }
 
+  bindEvents() {
+    // 이벤트를 li에게 위임
+    delegate(this.element, 'click', 'li', event => this.handleClick(event));
+  }
+
+  // click 이벤트 발생 시 @change 이벤트를 발행하는 콜백함수를 eventlistener에 등록
+  handleClick(event) {
+    console.log(tag, event.target);
+    const value = event.target.dataset.tab;
+    this.emit('@change', { value });
+  }
+
+  // 클릭한 tab에 따라서 active class 변경
   show(selectedTab) {
     this.element.innerHTML = this.template.getTabList();
-    qsAll("li", this.element).forEach((li) => {
-      li.className = li.dataset.tab == selectedTab ? "active" : "";
+    qsAll('li', this.element).forEach((li) => {
+      li.className = li.dataset.tab == selectedTab ? 'active' : '';
     });
 
     super.show();
