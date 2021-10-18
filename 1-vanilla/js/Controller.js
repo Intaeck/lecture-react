@@ -1,7 +1,7 @@
 const tag = "[Controller]";
 
 export default class Controller {
-  constructor(store, { searchFormView, searchResultView }) {
+  constructor(store, { searchFormView, searchResultView, tabView }) {
     console.log(tag, "constructor");
 
     this.store = store;
@@ -9,8 +9,10 @@ export default class Controller {
     this.searchFormView = searchFormView;
     this.searchResultView = searchResultView;
     // TODO
+    this.tabView = tabView;
 
     this.subscribeViewEvents();
+    this.render();
   }
 
   subscribeViewEvents() {
@@ -37,11 +39,13 @@ export default class Controller {
   render() {
     if (this.store.searchKeyword.length > 0) {
       // TODO
+      this.tabView.hide();
       this.searchResultView.show(this.store.searchResult);
       return;
     }
 
     // TODO
+    this.tabView.show();
     this.searchResultView.hide();
   }
 }
