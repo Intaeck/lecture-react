@@ -15,7 +15,10 @@ export function on(target, eventName, handler) {
 }
 
 export function delegate(target, eventName, selector, handler) {
+  console.log('[helpers-delegate]', handler);
+  //closure
   const emitEvent = (event) => {
+    console.log('[helpers]', selector, target);
     const potentialElements = qsAll(selector, target);
     console.log('potentialElements : ', potentialElements);
     for (const potentialElement of potentialElements) {

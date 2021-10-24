@@ -26,7 +26,10 @@ export default class TabView extends View {
 
   bindEvents() {
     // 이벤트를 li에게 위임
-    delegate(this.element, 'click', 'li', event => this.handleClick(event));
+    delegate(this.element, 'click', 'li', event => {
+      console.log('this : ', this);
+      this.handleClick(event)
+    });
   }
 
   // click 이벤트 발생 시 @change 이벤트를 발행하는 콜백함수를 eventlistener에 등록
