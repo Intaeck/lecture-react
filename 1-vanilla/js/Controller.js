@@ -5,9 +5,15 @@ const tag = "[Controller]";
 export default class Controller {
   constructor(
     store,
-    { searchFormView, searchResultView, tabView, keywordListView }
+    {
+      searchFormView,
+      searchResultView,
+      tabView,
+      keywordListView,
+      historyListView,
+    }
   ) {
-    console.log(tag, "constructor");
+    console.log(tag, 'constructor');
 
     this.store = store;
 
@@ -16,6 +22,7 @@ export default class Controller {
     this.tabView = tabView;
     this.keywordListView = keywordListView;
     // TODO
+    this.historyListView = historyListView;
 
     this.subscribeViewEvents();
     this.render();
@@ -23,33 +30,36 @@ export default class Controller {
 
   subscribeViewEvents() {
     this.searchFormView
-      .on("@submit", (event) => this.search(event.detail.value))
-      .on("@reset", () => this.reset());
+      .on('@submit', (event) => this.search(event.detail.value))
+      .on('@reset', () => this.reset());
 
-    this.tabView.on("@change", (event) => this.changeTab(event.detail.value));
+    this.tabView.on('@change', (event) => this.changeTab(event.detail.value));
 
-    this.keywordListView.on("@click", (event) =>
+    this.keywordListView.on('@click', (event) =>
+      this.search(event.detail.value)
+    );
+    this.historyListView.on('@click', (event) =>
       this.search(event.detail.value)
     );
   }
 
   search(keyword) {
-    console.log(tag, "search", keyword);
+    console.log(tag, 'search', keyword);
 
     this.store.search(keyword);
     this.render();
   }
 
   reset() {
-    console.log(tag, "reset");
+    console.log(tag, 'reset');
 
-    this.store.searchKeyword = "";
+    this.store.searchKeyword = '';
     this.store.searchResult = [];
     this.render();
   }
 
   changeTab(tab) {
-    console.log(tag, "changeTab", tab);
+    console.log(tag, 'changeTab', tab);
 
     this.store.selectedTab = tab;
     this.render();
@@ -64,11 +74,13 @@ export default class Controller {
     if (this.store.selectedTab === TabType.KEYWORD) {
       this.keywordListView.show(this.store.getKeywordList());
       // TODO
+      this.historyListView.hide();
     } else if (this.store.selectedTab === TabType.HISTORY) {
       this.keywordListView.hide();
       // TODO
+      this.historyListView.show(this.store.getHistoryList());
     } else {
-      throw "사용할 수 없는 탭입니다.";
+      throw '사용할 수 없는 탭입니다.';
     }
 
     this.searchResultView.hide();
@@ -79,7 +91,7 @@ export default class Controller {
     this.tabView.hide();
     this.keywordListView.hide();
     // TODO
-
+    this.historyListView.hide();
     this.searchResultView.show(this.store.searchResult);
   }
 }
