@@ -36,5 +36,8 @@ export default class Store {
 
   removeHistory(keyword) {
     // TODO
+    this.storage.historyData = this.storage.historyData.filter(
+      (history) => history.keyword !== keyword
+    );
   }
 }
