@@ -14,11 +14,14 @@ export function on(target, eventName, handler) {
   target.addEventListener(eventName, handler);
 }
 
+// 특정 element의 하위에 있는 자식 element들의 event를 처리하기 위해 사용
 export function delegate(target, eventName, selector, handler) {
+  // closure
   const emitEvent = (event) => {
     const potentialElements = qsAll(selector, target);
 
     for (const potentialElement of potentialElements) {
+      // 후보 element들 중에 이벤트를 발생시킨 element(event.target)를 찾아서 handler함수를 호출해줌
       if (potentialElement === event.target) {
         return handler.call(event.target, event);
       }
