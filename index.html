@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    // let data = 'hello world'; //Model
+    // document.body.innerHTML = `<p>${data}</p>`
+
+    // data = '안녕';
+    // document.body.innerHTML = `<p>${data}</p>`
+
+    const state = {
+      _data: 'Hello world',
+    };
+
+    const render = () => document.body.innerHTML = `<p>${state.data}</p>`;
+
+    //Object.defineProperty : 객체에 새로운 속성을 정의하거나 기존의 속성을 수정하고, 그 객체를 반환
+    //data라는 속성을 추가, 옵션으로 getter, setter 추가
+    Object.defineProperty(state, 'data', {
+      //data 속성에 접근할때 호출됨
+      get() {
+        console.log('get');
+        return state._data;
+      },
+      //data 속성에 value를 할당할때 호출
+      set(value) {
+        console.log('set');
+        state._data = value;
+        render();
+      }
+    });
+
+    render(); // get
+
+    state.data = '안녕'; // set , get (set함수가 render를 호출하기 때문)
+    state.data = 'Hello world 2';
+  </script>
+</body>
+</html>
