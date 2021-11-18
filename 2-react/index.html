@@ -20,9 +20,25 @@
 
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
+    <!-- script type="text/bable" 안에 있는 코드만 babel로 transfile 된다 -->
     <script type="text/babel">
-      const element = React.createElement("h1", null, "Hello world");
-      ReactDOM.render(element, document.querySelector("#app"));
+      // //React.createElement는 DOM element와 달리 JS의 객체값을 가진다
+      // const element = React.createElement("h1", null, "Hello world");
+      // console.log('react', element);
+      // //ReactDOM은 가상돔을 만든다
+      // ReactDOM.render(element, document.querySelector("#app"));
+
+      // document.body.innerHTML = '<p>Hello world</p>'
+
+      // const p = document.createElement('p');
+      // //textContent는 innerText와 동일하지만 차이점이 존재
+      // p.textContent = 'hello world';
+      // console.log('dom', p);
+      // // document.body.appendChild(p);
+
+      //JSX 문법
+      const element = <h1>Hello world</h1>
+      ReactDOM.render(element, document.querySelector('#app'));
     </script>
   </body>
 </html>
