@@ -8,7 +8,9 @@ class App extends React.Component {
   }
 
   handleSubmit(event) {
-    // TODO
+    //form이 서버에 제출하는 기본동작을 방지
+    event.preventDefault();
+    console.log('TODO: handleSubmit', this.state.searchKeyword);
   }
 
   handleChangeInput(event) {
@@ -23,8 +25,8 @@ class App extends React.Component {
           <h2 className="container">검색</h2>
         </header>
         <div className="container">
-          {/* TODO */}
-          <form>
+          {/* 제출 이벤트 = onSubmit */}
+          <form onSubmit={event => this.handleSubmit(event)}>
             <input
               type="text"
               placeholder="검색어를 입력하세요"
