@@ -27,15 +27,19 @@ class App extends React.Component {
   handleReset() {
     this.setState({
       searchKeyword: "",
-      // TODO
+      // state가 변경됨을 감지하면 render함수를 다시 호출해줌
+      submitted: false,
     });
   }
 
   handleChangeInput(event) {
     const searchKeyword = event.target.value;
 
-    // TODO
-
+    // 
+    if (searchKeyword.length <= 0 && this.state.submitted) {
+      return this.handleReset();
+    }
+    // 
     this.setState({ searchKeyword });
   }
 
