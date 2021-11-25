@@ -1,5 +1,16 @@
 import store from "./js/Store.js";
 
+
+export const TabType = {
+  KEYWORD: 'KEYWORD',
+  HISTORY: 'HISTORY',
+};
+
+const TabLabel = {
+  [TabType.KEYWORD]: '추천 검색어',
+  [TabType.HISTORY]: '최근 검색어',
+};
+
 class App extends React.Component {
   constructor() {
     super();
@@ -8,6 +19,7 @@ class App extends React.Component {
       searchKeyword: "",
       searchResult: [],
       submitted: false,
+      selectedTab: TabType.KEYWORD,
     };
   }
 
@@ -75,8 +87,31 @@ class App extends React.Component {
         <div className="empty-box">검색 결과가 없습니다</div>
       );
 
-    // TODO
-    const tabs = null;
+    // Tab
+    const tabs = (
+      <>
+        <ul className='tabs'>
+          {Object.values(TabType).map((tabType) => {
+            return (
+              <li
+                className={this.state.selectedTab === tabType ? 'active' : ''}
+                key={tabType}
+                onClick={() =>
+                  this.setState({
+                    selectedTab: tabType,
+                  })
+                }
+              >
+                {TabLabel[tabType]}
+              </li>
+            );
+          })}
+        </ul>
+
+        {this.state.selectedTab === TabType.KEYWORD && <>TODO: 추천 검색어</>}
+        {this.state.selectedTab === TabType.HISTORY && <>TODO: 최근 검색어</>}
+      </>
+    );
 
     return (
       <>
@@ -87,7 +122,7 @@ class App extends React.Component {
           {searchForm}
           <div className="content">
             {/* TODO */}
-            {this.state.submitted && searchResult}
+            {this.state.submitted ? searchResult : tabs}
           </div>
         </div>
       </>
