@@ -42,9 +42,12 @@ class App extends React.Component {
 
   search(searchKeyword) {
     const searchResult = store.search(searchKeyword);
+    const historyList = store.getHistoryList();
+
     this.setState({
       searchKeyword,
       searchResult,
+      historyList,
       submitted: true,
     });
   }
@@ -67,8 +70,12 @@ class App extends React.Component {
     this.setState({ searchKeyword });
   }
 
-  handleClickRemoveHistory() {
-    // TODO
+  handleClickRemoveHistory(event, keyword) {
+    //상위 태그인 li에도 이벤트가 걸려있으므로 버블링을 방지하기 위함
+    event.stopPropagation();
+    store.removeHistory(keyword);
+    const historyList = store.getKeywordList();
+    this.setState({ historyList })
   }
 
   render() {
@@ -116,13 +123,16 @@ class App extends React.Component {
     );
 
     const historyList = (
-      <ul className="list">
+      <ul className='list'>
         {this.state.historyList.map(({ id, keyword, date }) => (
           <li key={id} onClick={() => this.search(keyword)}>
             <span>{keyword}</span>
-            <span className="date">{formatRelativeDate(date)}</span>
+            <span className='date'>{formatRelativeDate(date)}</span>
             {/* TODO */}
-            <button className="btn-remove" />
+            <button
+              className='btn-remove'
+              onClick={(event) => this.handleClickRemoveHistory(event, keyword)}
+            />
           </li>
         ))}
       </ul>
