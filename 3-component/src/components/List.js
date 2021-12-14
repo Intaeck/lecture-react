@@ -21,8 +21,8 @@ export default class List extends React.Component {
         {this.state.data.map((item, index) => {
           return (
             // React에서 list를 만드려면 고유한 key 값을 넣어야함
-            <li key={item.id} onClick={() => this.props.onClick(item.keyword)}>
-            {/* <li key={item.id} onClick={this.props.onClick(item.keyword)}> */}
+            // <li key={item.id} onClick={() => this.props.onClick(item.keyword)}>
+            <li key={item.id} onClick={() => { return this.props.onClick(item.keyword) }}>
               {this.renderItem(item, index)}
             </li>
           );

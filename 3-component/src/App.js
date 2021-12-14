@@ -69,7 +69,8 @@ export default class App extends React.Component {
                   onChange={(selectedTab) => this.setState({ selectedTab })}
                 />
                 {selectedTab === TabType.KEYWORD && (
-                  <KeywordList onClick={(keyword) => this.search(keyword)} />
+                  // <KeywordList onClick={(keyword) => this.search(keyword)} />
+                  <KeywordList onClick={(keyword) => {return this.search(keyword) }} />
                 )}
                 {selectedTab === TabType.HISTORY && (
                   <HistoryList onClick={(keyword) => this.search(keyword)} />
