@@ -36,6 +36,7 @@ export default class App extends React.Component {
   // <SearchForm /> onReset props의 callback함수
   handleReset() {
     console.log('TODO: handleReset');
+    this.setState({ searchKeyword: '', searchResult: [], submitted: false });
   }
 
   // React.Component 클래스의 render method를 override -> React Component를 return 함
