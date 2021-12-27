@@ -1,79 +1,67 @@
-import React from "react";
-import Header from "./components/Header.js";
-import KeywordList from "./components/KeywordList.js";
-import HistoryList from "./components/HistoryList.js";
-import SearchForm from "./components/SearchForm.js";
-import SearchResult from "./components/SearchResult.js";
-import Tabs, { TabType } from "./components/Tabs.js";
-import store from "./Store.js";
+import React from 'react';
+import store from './Store';
+import Header from './components/Header';
+import SearchForm from './components/SearchForm';
+import SearchResult from './components/SearchResult';
 
 export default class App extends React.Component {
   constructor() {
     super();
 
     this.state = {
-      searchKeyword: "",
+      // SearchForm.js에 있던 state인 searchKeyword를 App.js로 끌어올림 (SearchForm.js는 class -> 함수 컴포넌트로 변경)
+      searchKeyword: '',
+      // 검색결과
       searchResult: [],
       submitted: false,
-      selectedTab: TabType.KEYWORD,
     };
   }
 
+  // SearchForm /> onChange props의 callback함수
   handleChangeInput(searchKeyword) {
     if (searchKeyword.length <= 0) {
       this.handleReset();
     }
-
     this.setState({ searchKeyword });
   }
 
+  // <SearchForm /> onSubmit props의 callback함수
   search(searchKeyword) {
+    console.log('App.js: search', searchKeyword);
     const searchResult = store.search(searchKeyword);
-    this.setState({
-      searchKeyword,
-      searchResult,
-      submitted: true,
-    });
+    // 검색결과 및 검색을 했다는 표시인 submitted: true로 set
+    this.setState({ searchResult, submitted: true });
   }
 
+  // <SearchForm /> onReset props의 callback함수
   handleReset() {
-    this.setState({
-      searchKeyword: "",
-      searchResult: [],
-      submitted: false,
-    });
+    console.log('TODO: handleReset');
   }
 
+  // React.Component 클래스의 render method를 override -> React Component를 return 함
   render() {
-    const { searchKeyword, searchResult, submitted, selectedTab } = this.state;
-
+    const { searchKeyword, searchResult, submitted } = this.state;
     return (
       <>
-        <Header title="검색" />
-        <div className="container">
+        {/* Header (함수 컴포넌트 - props.title 전달) */}
+        <Header title='검색' />
+
+        {/* Container */}
+        <div className='container'>
+          {/* SearchForm */}
+          {/* props로 onSubmit, onReset, onChange 콜백함수를 전달한다 -> SearchForm.js에서 실행해준다 */}
           <SearchForm
             value={searchKeyword}
             onChange={(value) => this.handleChangeInput(value)}
-            onSubmit={() => this.search(searchKeyword)}
+            onSubmit={(searchKeyword) => {
+              this.search(searchKeyword);
+            }}
             onReset={() => this.handleReset()}
           />
-          <div className="content">
-            {submitted ? (
-              <SearchResult data={searchResult} />
-            ) : (
-              <>
-                <Tabs
-                  selectedTab={selectedTab}
-                  onChange={(selectedTab) => this.setState({ selectedTab })}
-                />
-                {selectedTab === TabType.KEYWORD && (
-                  <KeywordList onClick={(keyword) => this.search(keyword)} />
-                )}
-                {selectedTab === TabType.HISTORY && (
-                  <HistoryList onClick={(keyword) => this.search(keyword)} />
-                )}
-              </>
-            )}
+
+          {/* SearchResult */}
+          <div className='content'>
+            {submitted && <SearchResult data={searchResult} />}
           </div>
         </div>
       </>
