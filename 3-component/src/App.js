@@ -3,6 +3,8 @@ import store from './Store';
 import Header from './components/Header';
 import SearchForm from './components/SearchForm';
 import SearchResult from './components/SearchResult';
+import Tabs, { TabType, TabLabel } from './components/Tabs';
+import KeywordList from './components/KeywordList';
 
 export default class App extends React.Component {
   constructor() {
@@ -14,6 +16,8 @@ export default class App extends React.Component {
       // 검색결과
       searchResult: [],
       submitted: false,
+      // 탭
+      selectedTab: TabType.KEYWORD,
     };
   }
 
@@ -41,7 +45,7 @@ export default class App extends React.Component {
 
   // React.Component 클래스의 render method를 override -> React Component를 return 함
   render() {
-    const { searchKeyword, searchResult, submitted } = this.state;
+    const { searchKeyword, searchResult, submitted, selectedTab } = this.state;
     return (
       <>
         {/* Header (함수 컴포넌트 - props.title 전달) */}
@@ -62,7 +66,22 @@ export default class App extends React.Component {
 
           {/* SearchResult */}
           <div className='content'>
-            {submitted && <SearchResult data={searchResult} />}
+            {submitted ? (
+              <SearchResult data={searchResult} />
+            ) : (
+              <>
+                <Tabs
+                  selectedTab={selectedTab}
+                  // props로 setState를 실행하는 콜백함수를 전달한다 -> Tabs.js에서 실행해준다
+                  onChange={(selectedTab) => this.setState({ selectedTab })}
+                />
+                {/* 추천 검색어, 최근 검색어 */}
+                {selectedTab === TabType.KEYWORD && (
+                  <KeywordList onClick={(keyword) => this.search(keyword)} />
+                )}
+                {selectedTab === TabType.HISTORY && <>TODO: 최근 검색어 목록</>}
+              </>
+            )}
           </div>
         </div>
       </>
