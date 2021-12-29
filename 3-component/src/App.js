@@ -5,6 +5,7 @@ import SearchForm from './components/SearchForm';
 import SearchResult from './components/SearchResult';
 import Tabs, { TabType, TabLabel } from './components/Tabs';
 import KeywordList from './components/KeywordList';
+import HistoryList from './components/HistoryList';
 
 export default class App extends React.Component {
   constructor() {
@@ -34,7 +35,7 @@ export default class App extends React.Component {
     console.log('App.js: search', searchKeyword);
     const searchResult = store.search(searchKeyword);
     // 검색결과 및 검색을 했다는 표시인 submitted: true로 set
-    this.setState({ searchResult, submitted: true });
+    this.setState({ searchKeyword, searchResult, submitted: true });
   }
 
   // <SearchForm /> onReset props의 callback함수
@@ -77,9 +78,13 @@ export default class App extends React.Component {
                 />
                 {/* 추천 검색어, 최근 검색어 */}
                 {selectedTab === TabType.KEYWORD && (
+                  // 실제 KeywordList, HistoryList의 render 처리는 List.js에서 한다
+                  // props로 넘겨주는 onClick 콜백함수는 List.js의 li태그의 이벤트임
                   <KeywordList onClick={(keyword) => this.search(keyword)} />
                 )}
-                {selectedTab === TabType.HISTORY && <>TODO: 최근 검색어 목록</>}
+                {selectedTab === TabType.HISTORY && (
+                  <HistoryList onClick={(keyword) => this.search(keyword)} />
+                )}
               </>
             )}
           </div>

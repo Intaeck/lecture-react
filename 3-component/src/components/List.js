@@ -1,34 +1,23 @@
 import React from 'react';
 
-// 상속 방식
-// KeywordList와 HistoryList의 공통적인 부분을 추출하여 클래스 생성 -> 자식 클래스에서 상속
-export default class List extends React.Component {
-  constructor() {
-    super();
+// 조합 방식 (컴포넌트 재활용)
+// 함수 컴포넌트로 만든다 -> 리액트 엘리먼트( li 태그)를 반환한다
+// 외부에서 상태(data, onClick/renderItem 함수)를 props로 받는다
+const List = ({ data = [], onClick, renderItem }) => {
+  return (
+    <ul className='list'>
+      {data.map((item, index) => {
+        // 리액트 엘리먼트 반환
+        return (
+          // KeywordList, HistoryList에서 props로 받은 콜백함수 onClick 실행
+          <li key={item.id} onClick={() => onClick(item.keyword)}>
+            {/* 외부에서 리액트 엘리먼트를 반환할 수 있는 함수를 props로 전달 받는다 */}
+            {renderItem(item, index)}
+          </li>
+        );
+      })}
+    </ul>
+  );
+};
 
-    this.state = {
-      data: [],
-    }
-  }
-
-  // 추상 메서드 -> List 클래스를 상속하는 자식 클래스에서 구현하도록 강제
-  renderItem(item, index) {
-    throw 'renderItem()을 구현하세요'
-  }
-
-  render() {
-    return (
-      <ul className="list">
-        {this.state.data.map((item, index) => {
-          // 리액트 엘리먼트 반환
-          return (
-            <li key={item.id} onClick={() => this.props.onClick(item.keyword)}>
-              {/* 상속한 자식 클래스에서 구현한 renderItem 메서드 실행 */}
-              {this.renderItem(item, index)}
-            </li>
-          )
-        })}
-      </ul>
-    )
-  }
-}
+export default List;
