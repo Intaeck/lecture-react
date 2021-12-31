@@ -25,7 +25,8 @@ export default class HistoryList extends React.Component {
   }
 
   // x 버튼 클릭 시 처리
-  handleClickRemoveHistory(keyword) {
+  handleClickRemoveHistory(event, keyword) {
+    event.stopPropagation();
     store.removeHistory(keyword);
     this.fetch();
   }
@@ -35,9 +36,23 @@ export default class HistoryList extends React.Component {
       <List
         data={this.state.historyList}
         onClick={this.props.onClick}
-        //
-        hasDate={true}
-        onRemove={(keyword) => this.handleClickRemoveHistory(keyword)}
+        // List.js의 props로 넘길 renderItem을 구현
+        // li 내부에 렌더링 될 리액트 엘리먼트를 반환 (List.js는 ul, li 태그를 렌더링)
+        renderItem={(item) => {
+          return (
+            <>
+              <span>{item.keyword}</span>
+              <span className='date'>{formatRelativeDate(item.date)}</span>
+              <button
+                className='btn-remove'
+                // x 버튼 클릭 이벤트 처리
+                onClick={(event) =>
+                  this.handleClickRemoveHistory(event, item.keyword)
+                }
+              ></button>
+            </>
+          );
+        }}
       />
     )
   }

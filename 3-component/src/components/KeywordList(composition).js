@@ -10,7 +10,7 @@ export default class KeywordList extends React.Component {
     // 추천검색어를 내부 state로 관리
     this.state = {
       keywordList: [],
-    };
+    }
   }
   // 컴포넌트가 마운트 된 후 store에서 데이터를 가져온다
   componentDidMount() {
@@ -24,8 +24,15 @@ export default class KeywordList extends React.Component {
         data={this.state.keywordList}
         // App.js에서 받은 props인 search(keyword) 콜백함수 등록
         onClick={this.props.onClick}
-        // List.js에서 사용할 조건부 렌더링 정보를 넘긴다
-        hasIndex={true}
+        // 리엑트 엘리먼트를 반환해서 사용하는 측에서 UI를 렌더링하는 용도로 사용하는 것을 '렌더 프롭스'라고 한다
+        renderItem={(item, index) => {
+          return (
+            <>
+              <span className='number'>{index + 1}</span>
+              <span>{item.keyword}</span>
+            </>
+          );
+        }}
       />
     );
   }
