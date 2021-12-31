@@ -15,6 +15,7 @@ const List = ({
 }) => {
   const handleClickRemoveHistory = (event, keyword) => {
     event.stopPropagation();
+    // props로 받은 콜백함수 실행
     onRemove(keyword);
   };
 
